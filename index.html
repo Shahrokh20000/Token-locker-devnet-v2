@@ -5,16 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Token Locker DApp</title>
 <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+    }
+    h1 {
+        color: #333;
+    }
+    .balance {
+        margin: 10px 0;
+    }
+    input {
+        margin: 10px;
+        padding: 10px;
+        width: 200px;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+    }
+    #depositButton {
+        background-color: green;
+        color: white;
+    }
+    #withdrawButton {
+        background-color: red;
+        color: white;
+    }
+</style>
 </head>
 <body>
 
 <h1>TOKEN LOCKER</h1>
 
+<!-- Connect Wallet Button -->
+<button id="connectWallet">Connect Wallet</button>
+
 <!-- Display Wallet Balance -->
-<div id="walletBalance">Wallet Balance: 0.000 MON</div>
+<div class="balance">Wallet Balance: <span id="walletBalance">0.000</span> MON</div>
 
 <!-- Display Contract Balance -->
-<div id="contractBalance">Contract Balance: 0.000 MON</div>
+<div class="balance">Contract Balance: <span id="contractBalance">0.000</span> MON</div>
 
 <!-- Input for deposit amount -->
 <input type="text" id="depositAmount" placeholder="Deposit Amount">
@@ -34,7 +68,7 @@ if (typeof web3 !== 'undefined') {
     // Use Mist/MetaMask's provider
     window.web3 = new Web3(web3.currentProvider);
 } else {
-    console.log('No web3? You should consider trying MetaMask!')
+    alert('No web3? You should consider trying MetaMask!');
 }
 
 // Your contract address
@@ -164,8 +198,7 @@ document.getElementById('connectWallet').addEventListener('click', async () => {
         try {
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
             userAccount = accounts[0];
-            document.getElementById('walletBalance').innerText = await web3.eth.getBalance(userAccount);
-            document.getElementById('contractBalance').innerText = await web3.eth.getBalance(contractAddress);
+            updateBalances();
         } catch (error) {
             console.error(error);
         }
@@ -174,37 +207,48 @@ document.getElementById('connectWallet').addEventListener('click', async () => {
     }
 });
 
+// Update balances
+async function updateBalances() {
+    try {
+        const walletBalance = await web3.eth.getBalance(userAccount);
+        document.getElementById('walletBalance').innerText = web3.utils.fromWei(walletBalance, 'ether');
+
+        const contractBalance = await web3.eth.getBalance(contractAddress);
+        document.getElementById('contractBalance').innerText = web3.utils.fromWei(contractBalance, 'ether');
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 // Deposit function
-async function deposit() {
+document.getElementById('depositButton').addEventListener('click', async () => {
     const amount = document.getElementById('depositAmount').value;
     if (amount > 0) {
         try {
             await tokenLockerContract.methods.deposit().send({ from: userAccount, value: web3.utils.toWei(amount, 'ether') });
-            document.getElementById('walletBalance').innerText = await web3.eth.getBalance(userAccount);
-            document.getElementById('contractBalance').innerText = await web3.eth.getBalance(contractAddress);
+            updateBalances();
         } catch (error) {
             console.error(error);
         }
     } else {
         alert('Please enter a valid amount');
     }
-}
+});
 
 // Withdraw function
-async function withdraw() {
+document.getElementById('withdrawButton').addEventListener('click', async () => {
     const amount = document.getElementById('withdrawAmount').value;
     if (amount > 0) {
         try {
             await tokenLockerContract.methods.withdraw(web3.utils.toWei(amount, 'ether')).send({ from: userAccount });
-            document.getElementById('walletBalance').innerText = await web3.eth.getBalance(userAccount);
-            document.getElementById('contractBalance').innerText = await web3.eth.getBalance(contractAddress);
+            updateBalances();
         } catch (error) {
             console.error(error);
         }
     } else {
         alert('Please enter a valid amount');
     }
-}
+});
 </script>
 
 </body>
