@@ -58,11 +58,22 @@
         right: 10px;
         width: 70px; /* Adjusted size */
     }
+    #status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        text-align: left;
+    }
 </style>
 </head>
 <body>
 
 <img id="logo" src="https://img.notionusercontent.com/s3/prod-files-secure%2F8b536fe4-3bbf-45fc-b661-190b80c94bea%2Fc5c6a821-eed7-43e6-9a52-f32883fae734%2FMonad_Logo_-_Default_-_Logo_Mark.png/size/w=140?exp=1736685224&sig=UpW3yOX6sbEPXO71rnlvtww-ryly_dKPdKFszMa5-aQ" alt="Monad Logo">
+
+<div id="status">
+    <div id="connectionStatus">Not connected</div>
+    <div id="networkStatus">Wrong network</div>
+</div>
 
 <h1>TOKEN LOCKER</h1>
 <h2>Monad will save us from high gas and centralization</h2>
@@ -228,6 +239,8 @@ document.getElementById('connectWallet').addEventListener('click', async () => {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
             const accounts = await web3.eth.getAccounts();
             userAccount = accounts[0];
+            document.getElementById('connectionStatus').innerText = userAccount;
+            updateNetworkStatus();
             updateBalances();
         } catch (error) {
             console.error(error);
@@ -262,6 +275,20 @@ document.getElementById('addNetwork').addEventListener('click', async () => {
         alert('Please install MetaMask!');
     }
 });
+
+// Update network status
+async function updateNetworkStatus() {
+    try {
+        const chainId = await web3.eth.getChainId();
+        if (chainId === 0x4eaf) {
+            document.getElementById('networkStatus').innerText = 'Correct network';
+        } else {
+            document.getElementById('networkStatus').innerText = 'Wrong network';
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 // Update balances
 async function updateBalances() {
@@ -301,4 +328,11 @@ document.getElementById('withdrawButton').addEventListener('click', async () => 
         } catch (error) {
             console.error(error);
         }
+    } else {
+        alert('Please enter a valid amount');
     }
+});
+</script>
+
+</body>
+</html>
