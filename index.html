@@ -35,6 +35,15 @@
         margin: 10px;
         cursor: pointer;
     }
+    #connectWallet {
+        background-color: blue;
+        color: white;
+    }
+    #addNetwork {
+        background-color: orange;
+        color: white;
+        padding: 5px 10px; /* 1/2 size of connect wallet button */
+    }
     #depositButton {
         background-color: green;
         color: white;
@@ -60,6 +69,9 @@
 
 <!-- Connect Wallet Button -->
 <button id="connectWallet">Connect Wallet</button>
+
+<!-- Add Network Button -->
+<button id="addNetwork">Add Network</button>
 
 <!-- Display Wallet Balance -->
 <div class="balance">Wallet Balance: <span id="walletBalance">0.000</span> MON</div>
@@ -224,6 +236,32 @@ document.getElementById('connectWallet').addEventListener('click', async () => {
     }
 });
 
+// Add network
+document.getElementById('addNetwork').addEventListener('click', async () => {
+    if (window.ethereum) {
+        try {
+            await ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                    chainId: '0x4E2F', // 20143 in hexadecimal
+                    chainName: 'Monad Devnet',
+                    rpcUrls: ['https://rpc-devnet.monadinfra.com/rpc/3fe540e310bbb6ef0b9f16cd23073b0a'],
+                    nativeCurrency: {
+                        name: 'MON',
+                        symbol: 'MON',
+                        decimals: 18
+                    },
+                    blockExplorerUrls: ['https://explorer.monad-devnet.devnet101.com']
+                }]
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        alert('Please install MetaMask!');
+    }
+});
+
 // Update balances
 async function updateBalances() {
     try {
@@ -264,9 +302,3 @@ document.getElementById('withdrawButton').addEventListener('click', async () => 
         }
     } else {
         alert('Please enter a valid amount');
-    }
-});
-</script>
-
-</body>
-</html>
