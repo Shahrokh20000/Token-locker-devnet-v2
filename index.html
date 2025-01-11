@@ -93,9 +93,9 @@
 
 <script>
 // Check if Web3 has been injected by the browser (Mist/MetaMask)
-if (typeof web3 !== 'undefined') {
+if (typeof window.ethereum !== 'undefined') {
     // Use Mist/MetaMask's provider
-    window.web3 = new Web3(web3.currentProvider);
+    window.web3 = new Web3(window.ethereum);
 } else {
     alert('No web3? You should consider trying MetaMask!');
 }
@@ -225,7 +225,8 @@ let userAccount;
 document.getElementById('connectWallet').addEventListener('click', async () => {
     if (window.ethereum) {
         try {
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await web3.eth.getAccounts();
             userAccount = accounts[0];
             updateBalances();
         } catch (error) {
@@ -240,7 +241,7 @@ document.getElementById('connectWallet').addEventListener('click', async () => {
 document.getElementById('addNetwork').addEventListener('click', async () => {
     if (window.ethereum) {
         try {
-            await ethereum.request({
+            await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
                 params: [{
                     chainId: '0x4E2F', // 20143 in hexadecimal
@@ -302,3 +303,9 @@ document.getElementById('withdrawButton').addEventListener('click', async () => 
         }
     } else {
         alert('Please enter a valid amount');
+    }
+});
+</script>
+
+</body>
+</
