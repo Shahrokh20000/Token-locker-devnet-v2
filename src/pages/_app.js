@@ -2,25 +2,20 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 import Head from "next/head";
 
-// Define your custom chain using environment variables
-const customChain = {
-  chainId: parseInt(process.env.NEXT_PUBLIC_CUSTOM_CHAIN_ID), // Chain ID for your custom chain
-  rpc: [process.env.NEXT_PUBLIC_CUSTOM_RPC_URL], // RPC URL
-  name: process.env.NEXT_PUBLIC_CUSTOM_CHAIN_NAME, // A friendly name for the chain
+const monadChain = {
+  chainId: 20143,
+  rpc: ["https://rpc-devnet.monadinfra.com/rpc/3fe540e310bbb6ef0b9f16cd23073b0a"], // Replace with your actual Monad RPC URL
+  name: "Monad",
   nativeCurrency: {
-    name: process.env.NEXT_PUBLIC_NATIVE_CURRENCY_NAME, // Native token name
-    symbol: process.env.NEXT_PUBLIC_NATIVE_CURRENCY_SYMBOL, // Native token symbol (e.g., ETH for Ethereum)
-    decimals: parseInt(process.env.NEXT_PUBLIC_NATIVE_CURRENCY_DECIMALS), // Number of decimals for the native token
+    decimals: 18,
+    name: "DMON",
+    symbol: "DMON"
   },
-  shortName: process.env.NEXT_PUBLIC_CUSTOM_CHAIN_SHORT_NAME, // A short name for the chain
-  slug: process.env.NEXT_PUBLIC_CUSTOM_CHAIN_SLUG, // Optional: slug used by thirdweb (e.g., in URLs)
-  explorers: [
-    {
-      name: process.env.NEXT_PUBLIC_EXPLORER_NAME, // Name of the explorer
-      url: process.env.NEXT_PUBLIC_EXPLORER_URL, // Link to a blockchain explorer for your chain
-      standard: process.env.NEXT_PUBLIC_EXPLORER_STANDARD, // Standard for blockchain explorers
-    },
-  ],
+  shortName: "monad",
+  slug: "monad",
+  testnet: false,
+  chain: "Monad",
+  networkId: 20143
 };
 
 function MyApp({ Component, pageProps }) {
@@ -41,17 +36,21 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:url" content="https://www.VaultNad.com" />
         <meta property="og:title" content="VaultNad - Secure Blockchain Token Locker" />
         <meta property="og:description" content="Lock and manage your tokens securely on the blockchain with VaultNad. Protect your assets with transparency and trust." />
-        <meta property="og:image" content="https://www.VaultNad.com/og-image.png" /> {/* You can add an image here */}
+        <meta property="og:image" content="https://www.VaultNad.com/og-image.png" />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://www.VaultNad.com" />
         <meta property="twitter:title" content="VaultNad - Secure Blockchain Token Locker" />
         <meta property="twitter:description" content="Lock and manage your tokens securely on the blockchain with VaultNad. Protect your assets with transparency and trust." />
-        <meta property="twitter:image" content="https://www.VaultNad.com/og-image.png" /> {/* You can add an image here */}
+        <meta property="twitter:image" content="https://www.VaultNad.com/og-image.png" />
       </Head>
 
-      <ThirdwebProvider activeChain={customChain} clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}>
+      <ThirdwebProvider 
+        activeChain={monadChain}
+        clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+        supportedChains={[monadChain]}
+      >
         <Component {...pageProps} />
       </ThirdwebProvider>
     </>
