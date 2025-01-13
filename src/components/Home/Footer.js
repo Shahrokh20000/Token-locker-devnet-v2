@@ -5,7 +5,7 @@ import { FaTwitter, FaGithub } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="bg-black p-6">
-      <div className="relative mx-auto mb-6 flex flex-col gap-4 items-center justify-center min-h-[20vh] max-w-7xl py-12 bg-[#0341BA] rounded-xl bg-gradient-to-r from-[#836EF9] to-[#C1139B]">
+      {/* <div className="relative mx-auto mb-6 flex flex-col gap-4 items-center justify-center min-h-[20vh] max-w-7xl py-12 bg-[#0341BA] rounded-xl bg-gradient-to-r from-[#836EF9] to-[#C1139B]">
         <h2 className="text-center font-bricolage text-2xl font-semibold leading-8 text-white">
           Ready to deploy your first ERC20 Token?
         </h2>
@@ -15,7 +15,7 @@ export default function Footer() {
         >
           Get started
         </Link>
-      </div>
+      </div> */}
 
       <div className="flex flex-col lg:flex-row justify-between items-center mt-[50px]">
         <div className="mb-4 lg:mb-0">
