@@ -20,7 +20,7 @@ export default function Footer() {
       <div className="flex flex-col lg:flex-row justify-between items-center mt-[50px]">
         <div className="mb-4 lg:mb-0">
           <Link href="#" className="flex items-center">
-            <img className="h-12 w-auto" src="/logo.svg" alt="Your Company" />
+            <img className="h-12 w-auto" src="https://cdn.prod.website-files.com/667c57e6f9254a4b6d914440/667d7104644c621965495f6e_LogoMark.svg" alt="Your Company" />
           </Link>
         </div>
         <div className="text-white text-sm">
@@ -28,14 +28,14 @@ export default function Footer() {
         </div>
         <div className="flex space-x-6 mb-4 lg:mb-0">
           <Link
-            href="https://twitter.com/yourprofile"
+            href="https://twitter.com/monaddevrel"
             target="_blank"
             className="text-white hover:text-[#1DA1F2]"
           >
             <FaTwitter className="h-6 w-6" aria-hidden="true" />
           </Link>
           <Link
-            href="https://github.com/yourprofile"
+            href="https://github.com/Elishaokon13"
             target="_blank"
             className="text-white hover:text-gray-400"
           >
